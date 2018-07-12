@@ -15,12 +15,13 @@ services:
     image: boyney123/garie
     environment:
       - LIGHTHOUSE_URL=http://lighthouse:8080
-      - PAGE_SPEED_INSIGHTS_KEY
       # https://github.com/ebidel/lighthouse-ci/blob/master/builder/README.md#using-the-container-as-a-web-service-laas
       # If you don't to require keys from users, simply include the parameter but use a fake value (e.g. "abc123").
       - LIGHTHOUSE_API_KEY=123abc
     ports:
       - 8080:8080
+    env_file:
+      - ./.variables.env
   grafana:
     image: grafana/grafana
     ports:
