@@ -11,22 +11,24 @@ services:
       - grafana
       - lighthouse
     links:
-      - lighthouse  
+      - lighthouse
     image: boyney123/garie
     environment:
       - LIGHTHOUSE_URL=http://lighthouse:8080
       - PAGE_SPEED_INSIGHTS_KEY
-      - LIGHTHOUSE_API_KEY
+      # https://github.com/ebidel/lighthouse-ci/blob/master/builder/README.md#using-the-container-as-a-web-service-laas
+      # If you don't to require keys from users, simply include the parameter but use a fake value (e.g. "abc123").
+      - LIGHTHOUSE_API_KEY=123abc
     ports:
       - 8080:8080
   grafana:
     image: grafana/grafana
     ports:
-      - 80:3000
+      - 3000:3000
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=secret
     volumes:
-      - "./grafana/provisioning:/etc/grafana/provisioning"  
+      - "./grafana/provisioning:/etc/grafana/provisioning"
       - "./grafana/dashboards:/var/lib/grafana/dashboards"
   lighthouse:
     image: boyney123/lighthouse_ci
@@ -34,4 +36,4 @@ services:
     ports:
       - "4000:8080"
     cap_add:
-      - SYS_ADMIN    
+      - SYS_ADMIN
